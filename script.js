@@ -1,58 +1,8 @@
-class App extends React.Component {
-    constructor() {
-            super()
-        };
-
-    render() {
-
-
-    return (
-        <div>
-            <List />
-        </div>
-        )
-    }
-}
-
-
-class ItemsList extends React.Component {
-    constructor() {
-        super()
-
-        this.state = {
-            indexd: null
-        }
-
-        this.deleteHandler = this.deleteHandler.bind(this);
-    };
-
-
-    deleteHandler(event) {
-        this.setState({indexd: event.target.id})
-    }
-
-    render() {
-    return (
-        <div className="to-do-list">
-            <input className="checkbox" type="checkbox" id={this.props.index} />
-            <button className="delete" onClick={this.deleteHandler} id={this.props.index}>X</button>
-            <span><li>{this.props.item}</li></span>
-        </div>
-
-        );
-    }
-
-}
-
-
 class List extends React.Component {
   constructor(){
     super()
-    this.changeHandler = this.changeHandler.bind(this);
-    this.addItem = this.addItem.bind(this);
-  }
 
-  state = {
+    this.state = {
     list : [],
     word : "",
     currentClass: "normal",
@@ -66,7 +16,13 @@ class List extends React.Component {
             },
     keyPress: function empty() {
                 console.log("typing...")
-              }
+              },
+    indexd: ""
+  }
+
+    this.changeHandler = this.changeHandler.bind(this);
+    this.addItem = this.addItem.bind(this);
+    this.deleteHandler = this.deleteHandler.bind(this);
   }
 
 
@@ -107,34 +63,74 @@ class List extends React.Component {
     this.setState({word: ""});
   }
 
-  deleteItem() {
-    this.setState({})
-  }
+  deleteHandler() {
+    let newList = [...this.state.list];
+    newList.splice(event.target.id, 1)
+    this.setState({list: newList});
+       // this.state.list.splice(event.target.id, 1)});
+    }
 
   render() {
       // render the list with a map() here
       console.log("rendering");
       console.log("list array", this.state.list);
 
+
       let itemsList = this.state.list.map( (item, index) => {
-            return <ItemsList key={index} index={index} item={item} delete={} />;
+            return <ItemsList key={index} index={index} item={item} delete={this.deleteHandler} />;
         });
 
       return (
         <div className="list">
           <input className={this.state.currentClass} onChange={this.changeHandler} onKeyPress={this.state.keyPress} onKeyUp={this.state.keyUp} value={this.state.word} />
           <button className="add-item" onClick={this.addItem} disabled={this.state.button} >Add Item</button>
-          <ul>{itemsList}</ul>
           <p className="error-msg">{this.state.errors}</p>
+          <ul>{itemsList}</ul>
         </div>
       );
   }
 }
 
+class ItemsList extends React.Component {
+    constructor() {
+        super()
+
+    this.state = {
+        liClass: "list-new"
+    }
+
+    this.whenDone = this.whenDone.bind(this);
+    };
+
+    whenDone(event) {
+        let done = event.target.checked;
+        console.log("checkbox", event.target.checked);
+        if (done === true) {
+            this.setState({liClass: "list-done"});
+        } else {
+            this.setState({liClass: "list-new"});
+        }
+    }
+
+    render() {
+    return (
+        <div className="to-do-list">
+            <li className={this.state.liClass}>
+                <input className="checkbox" type="checkbox" id={this.props.index} onChange={this.whenDone} />
+                <button className="delete" onClick={(event) => this.props.delete(event)} id={this.props.index}>X</button>
+                <p className="list-text">{this.props.item}</p>
+            </li>
+        </div>
+
+        );
+    }
+
+}
+
 ReactDOM.render(
     <div>
         <h1>List your stuff</h1>
-        <App />
+        <List />
     </div>,
     document.getElementById('root')
 );

@@ -29,14 +29,18 @@ p.error-msg {
 /*******************
 ItemsList Component
 ********************/
-div.to-do-list {
+li.list-new, li.list-done {
 	display: flex;
 	flex-wrap: wrap;
 }
 
+li.list-done {
+	 text-decoration: line-through;
+}
+
 .to-do-list li {
 	list-style-type: none;
-	margin-left: 10px;
+	margin: 10px 0;
 }
 
 input[type=checkbox] {
@@ -44,12 +48,17 @@ input[type=checkbox] {
 }
 
 input.checkbox {
-	width: 25px;
+	width: 20px;
+	margin-right: 5px;
 }
 
 button.delete {
 	width: 25px;
 	height: 25px;
 	border-radius: 5px;
+}
+
+p.list-text {
+	margin-left: 5px;
 }
 
