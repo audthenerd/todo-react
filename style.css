@@ -1,0 +1,55 @@
+body {
+	margin: 20px 100px;
+}
+
+/****************
+List Component
+****************/
+input {
+	font-size: 20px;
+	height: 25px;
+	width: 500px;
+}
+
+input.warning {
+	border: 3px solid red;
+}
+
+button.add-item {
+	margin-left: 5px;
+	width: 120px;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+p.error-msg {
+	color: purple;
+}
+
+/*******************
+ItemsList Component
+********************/
+div.to-do-list {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.to-do-list li {
+	list-style-type: none;
+	margin-left: 10px;
+}
+
+input[type=checkbox] {
+  transform: scale(1.7);
+}
+
+input.checkbox {
+	width: 25px;
+}
+
+button.delete {
+	width: 25px;
+	height: 25px;
+	border-radius: 5px;
+}
+
