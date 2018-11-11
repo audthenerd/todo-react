@@ -8,7 +8,7 @@ List Component
 input {
 	font-size: 20px;
 	height: 25px;
-	width: 500px;
+	width: 668px;
 }
 
 input.warning {
@@ -29,16 +29,11 @@ p.error-msg {
 /*******************
 ItemsList Component
 ********************/
-li.list-new, li.list-done {
-	display: flex;
-	flex-wrap: wrap;
+div.to-do-list {
+	display: inline-flex;
 }
 
-li.list-done {
-	 text-decoration: line-through;
-}
-
-.to-do-list li {
+.to-do-list li, .you-done-list li {
 	list-style-type: none;
 	margin: 10px 0;
 }
@@ -56,9 +51,31 @@ button.delete {
 	width: 25px;
 	height: 25px;
 	border-radius: 5px;
+	overflow: hidden;
+	text-align: center;
 }
 
-p.list-text {
-	margin-left: 5px;
+p.list-text, p.list-date {
+	margin-left: 18px;
 }
+
+li.list-new {
+	display: inline-flex;
+}
+
+/*******************
+ItemsDone Component
+********************/
+li.list-done {
+	 text-decoration: line-through;
+}
+
+div.rem-sect, div.done-sect {
+	width: 794px;
+	height: 250px;
+	border: 2px solid lightgrey;
+	overflow-y: scroll;
+	scroll-behavior: smooth;
+}
+
 

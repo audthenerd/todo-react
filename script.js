@@ -1,3 +1,4 @@
+
 class List extends React.Component {
   constructor(){
     super()
@@ -8,21 +9,23 @@ class List extends React.Component {
     currentClass: "normal",
     errors: "",
     button: "disabled",
-    keyUp: function enterSubmit(event) {
-                event.preventDefault();
-                if (event.keyCode === 13) {
-                document.getElementsByClassName("add-item")[0].click();
-                }
-            },
+    // keyUp: function enterSubmit(event) {
+    //             event.preventDefault();
+    //             if (event.keyCode === 13) {
+    //             document.getElementsByClassName("add-item")[0].click();
+    //             }
+    //         },
     keyPress: function empty() {
                 console.log("typing...")
               },
-    indexd: ""
+
+    done: []
   }
 
     this.changeHandler = this.changeHandler.bind(this);
     this.addItem = this.addItem.bind(this);
     this.deleteHandler = this.deleteHandler.bind(this);
+    this.doneHandler = this.doneHandler.bind(this);
   }
 
 
@@ -58,17 +61,31 @@ class List extends React.Component {
 
   }
 
-  addItem() {
-    this.state.list.push(this.state.word);
+  addItem(event) {
+    event.preventDefault();
+    console.log("adding", this.dn.value);
+    this.state.list.push([this.dn.value, this.state.word]);
     this.setState({word: ""});
   }
 
   deleteHandler() {
     let newList = [...this.state.list];
-    newList.splice(event.target.id, 1)
+    newList.splice(event.target.id, 1);
     this.setState({list: newList});
-       // this.state.list.splice(event.target.id, 1)});
-    }
+}
+
+ doneHandler() {
+
+    let boxchecked = event.target.checked;
+        console.log("checkbox", event.target.checked);
+        if (boxchecked === true) {
+
+            let newList = [...this.state.list];
+            let doneList = this.state.done;
+            doneList.push(newList.splice(event.target.id, 1)[0]);
+            this.setState({list: newList});
+        }
+ }
 
   render() {
       // render the list with a map() here
@@ -77,15 +94,31 @@ class List extends React.Component {
 
 
       let itemsList = this.state.list.map( (item, index) => {
-            return <ItemsList key={index} index={index} item={item} delete={this.deleteHandler} />;
+            return (<ItemsList key={index} index={index} item={item} delete={this.deleteHandler} done={this.doneHandler} />);
+        });
+
+
+        let itemsDoneList = this.state.done.map((item, index) => {
+            return (<ItemsDone key={index} index={index} item={item} />)
         });
 
       return (
         <div className="list">
-          <input className={this.state.currentClass} onChange={this.changeHandler} onKeyPress={this.state.keyPress} onKeyUp={this.state.keyUp} value={this.state.word} />
-          <button className="add-item" onClick={this.addItem} disabled={this.state.button} >Add Item</button>
+        <form onSubmit={this.addItem} >
+          <input className="date-field" type="hidden" defaultValue={moment(new Date()).format('dddd, MMMM Do YYYY, h:mm a')} ref={dn => this.dn = dn} />
+          <input className={this.state.currentClass} onChange={this.changeHandler} onKeyPress={this.state.keyPress} value={this.state.word} />
+          <button className="add-item" type="submit" disabled={this.state.button} >Add Item</button>
+        </form>
           <p className="error-msg">{this.state.errors}</p>
-          <ul>{itemsList}</ul>
+
+          <div className='rem-sect'>
+             <h3>Remember to....</h3>
+             <ul>{itemsList}</ul>
+          </div>
+            <div className='done-sect'>
+              <h3>You're Done!</h3>
+              <ul>{itemsDoneList}</ul>
+          </div>
         </div>
       );
   }
@@ -94,31 +127,17 @@ class List extends React.Component {
 class ItemsList extends React.Component {
     constructor() {
         super()
-
-    this.state = {
-        liClass: "list-new"
     }
 
-    this.whenDone = this.whenDone.bind(this);
-    };
-
-    whenDone(event) {
-        let done = event.target.checked;
-        console.log("checkbox", event.target.checked);
-        if (done === true) {
-            this.setState({liClass: "list-done"});
-        } else {
-            this.setState({liClass: "list-new"});
-        }
-    }
 
     render() {
+        console.log("entry", this.props.item);
     return (
         <div className="to-do-list">
-            <li className={this.state.liClass}>
-                <input className="checkbox" type="checkbox" id={this.props.index} onChange={this.whenDone} />
+                <input className="checkbox" type="checkbox" id={this.props.index} onChange={(event) => this.props.done(event)} />
                 <button className="delete" onClick={(event) => this.props.delete(event)} id={this.props.index}>X</button>
-                <p className="list-text">{this.props.item}</p>
+            <li className="list-new">
+                <p className="list-date">{this.props.item[0]}</p><p className="list-text">{this.props.item[1]}</p>
             </li>
         </div>
 
@@ -127,11 +146,27 @@ class ItemsList extends React.Component {
 
 }
 
+class ItemsDone extends React.Component {
+
+    constructor() {
+            super()
+    }
+
+    render() {
+        return (
+            <div className="you-done-list">
+                <input className="checkbox" type="checkbox" id={this.props.index} />
+                <button className="delete" id={this.props.index}>X</button>
+                <li className="list-done">{this.props.item}</li>
+            </div>
+            )
+    }
+}
+
 ReactDOM.render(
-    <div>
-        <h1>List your stuff</h1>
+    <div className="done-list">
+        <h1>Listie: List your stuff</h1>
         <List />
     </div>,
     document.getElementById('root')
 );
-
