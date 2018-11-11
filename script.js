@@ -107,9 +107,9 @@ class List extends React.Component {
         <form onSubmit={this.addItem} >
           <input className="date-field" type="hidden" defaultValue={moment(new Date()).format('dddd, MMMM Do YYYY, h:mm a')} ref={dn => this.dn = dn} />
           <label>Your to-do</label>
-          <input className={this.state.currentClass} onChange={this.changeHandler} onKeyPress={this.state.keyPress} value={this.state.word} /><br />
+          <span><input className={this.state.currentClass} onChange={this.changeHandler} onKeyPress={this.state.keyPress} value={this.state.word} /></span><br />
           <label>Goal completion date</label>
-          <input className="expiry-field" type="date" ref={ef => this.ef = ef} onChange={this.dateHandler} />
+          <span><input className="expiry-field" type="date" ref={ef => this.ef = ef} onChange={this.dateHandler} /></span>
           <button className="add-item" type="submit" disabled={this.state.button} >Add Item</button>
         </form>
           <p className="error-msg">{this.state.errors}</p>

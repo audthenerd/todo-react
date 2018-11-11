@@ -1,5 +1,5 @@
 body {
-	margin: 20px 100px;
+	margin-top: 10px;
 	background-image: url('background-mount.jpg');
 	background-size: cover;
 }
@@ -9,6 +9,13 @@ div.ui.container {
 	background-color: white;
 	opacity: 0.8;
 	overflow: hidden;
+}
+
+
+@media only screen and (max-width: 600px) {
+	div.ui.container {
+		width: 20vw;
+	}
 }
 /****************
 List Component
@@ -85,7 +92,6 @@ li.list-done {
 }
 
 div.rem-sect, div.done-sect {
-	width: 778px;
 	height: 250px;
 	padding: 7px;
 	border: 2px solid lightgrey;
