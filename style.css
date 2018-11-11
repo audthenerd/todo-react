@@ -1,14 +1,30 @@
 body {
 	margin: 20px 100px;
+	background-image: url('background-mount.jpg');
+	background-size: cover;
 }
 
+div.ui.container {
+	padding: 10px;
+	background-color: white;
+	opacity: 0.8;
+	overflow: hidden;
+}
 /****************
 List Component
 ****************/
 input {
 	font-size: 20px;
 	height: 25px;
-	width: 668px;
+	width: 520px;
+}
+
+input.normal {
+	margin-left: 82px;
+}
+
+input.expiry-field {
+	margin-left: 17px;
 }
 
 input.warning {
@@ -29,13 +45,18 @@ p.error-msg {
 /*******************
 ItemsList Component
 ********************/
-div.to-do-list {
-	display: inline-flex;
-}
-
-.to-do-list li, .you-done-list li {
+.you-done-list li {
 	list-style-type: none;
 	margin: 10px 0;
+}
+
+table {
+table-layout: fixed;
+}
+
+th, td {
+  padding: 10px;
+  text-align: center;
 }
 
 input[type=checkbox] {
@@ -55,13 +76,6 @@ button.delete {
 	text-align: center;
 }
 
-p.list-text, p.list-date {
-	margin-left: 18px;
-}
-
-li.list-new {
-	display: inline-flex;
-}
 
 /*******************
 ItemsDone Component
@@ -71,8 +85,9 @@ li.list-done {
 }
 
 div.rem-sect, div.done-sect {
-	width: 794px;
+	width: 778px;
 	height: 250px;
+	padding: 7px;
 	border: 2px solid lightgrey;
 	overflow-y: scroll;
 	scroll-behavior: smooth;

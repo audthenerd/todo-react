@@ -64,7 +64,7 @@ class List extends React.Component {
   addItem(event) {
     event.preventDefault();
     console.log("adding", this.dn.value);
-    this.state.list.push([this.dn.value, this.state.word]);
+    this.state.list.push([this.dn.value, this.state.word, this.ef.value]);
     this.setState({word: ""});
   }
 
@@ -106,14 +106,24 @@ class List extends React.Component {
         <div className="list">
         <form onSubmit={this.addItem} >
           <input className="date-field" type="hidden" defaultValue={moment(new Date()).format('dddd, MMMM Do YYYY, h:mm a')} ref={dn => this.dn = dn} />
-          <input className={this.state.currentClass} onChange={this.changeHandler} onKeyPress={this.state.keyPress} value={this.state.word} />
+          <label>Your to-do</label>
+          <input className={this.state.currentClass} onChange={this.changeHandler} onKeyPress={this.state.keyPress} value={this.state.word} /><br />
+          <label>Goal completion date</label>
+          <input className="expiry-field" type="date" ref={ef => this.ef = ef} onChange={this.dateHandler} />
           <button className="add-item" type="submit" disabled={this.state.button} >Add Item</button>
         </form>
           <p className="error-msg">{this.state.errors}</p>
 
           <div className='rem-sect'>
              <h3>Remember to....</h3>
-             <ul>{itemsList}</ul>
+            <table>
+            <tbody>
+            <tr>
+                <th className="done-box">Done</th><th className="del-box">Delete</th><th className="list-date">Date Listed</th><th className="list-text">To-Do</th><th className="list-expiry">Countdown</th>
+            </tr>
+             {itemsList}
+              </tbody>
+            </table>
           </div>
             <div className='done-sect'>
               <h3>You're Done!</h3>
@@ -131,15 +141,22 @@ class ItemsList extends React.Component {
 
 
     render() {
-        console.log("entry", this.props.item);
+        console.log(this.props.item[2]);
+    let expiry;
+    if(this.props.item[2] == "") {
+        expiry = (<td>No date entered</td>);
+    } else {
+        expiry = (<td>expires {new moment().to(this.props.item[2])}</td>);
+    }
+
     return (
-        <div className="to-do-list">
-                <input className="checkbox" type="checkbox" id={this.props.index} onChange={(event) => this.props.done(event)} />
-                <button className="delete" onClick={(event) => this.props.delete(event)} id={this.props.index}>X</button>
-            <li className="list-new">
-                <p className="list-date">{this.props.item[0]}</p><p className="list-text">{this.props.item[1]}</p>
-            </li>
-        </div>
+        <tr className="to-do-list">
+
+                <td><input className="checkbox" type="checkbox" id={this.props.index} onChange={(event) => this.props.done(event)} /> </td>
+                <td><button className="delete" onClick={(event) => this.props.delete(event)} id={this.props.index}>X</button></td>
+
+                <td>{this.props.item[0]}</td><td>{this.props.item[1]}</td>{expiry}
+        </tr>
 
         );
     }
@@ -157,7 +174,7 @@ class ItemsDone extends React.Component {
             <div className="you-done-list">
                 <input className="checkbox" type="checkbox" id={this.props.index} />
                 <button className="delete" id={this.props.index}>X</button>
-                <li className="list-done">{this.props.item}</li>
+                <li className="list-done">{this.props.item[1]}</li>
             </div>
             )
     }
